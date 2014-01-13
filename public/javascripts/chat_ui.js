@@ -1,45 +1,48 @@
 (function (root) {
   var ChatApp = root.ChatApp = root.ChatApp || {};
 
+  var UI = ChatApp.UI = function (chat) {
+    this.chat = chat;
+  };
+
   var installSocketHandlers = function () {
+    var ui = this;
+
     ChatApp.socket.on("news", function (data) {
       console.log("Socketed.");
-      installKeyHandler();
-      ChatApp.chat.sendMessage("Say something.");
+      installKeyHandler.call(ui);
+      ui.chat.sendMessage("Say something.");
     });
 
     ChatApp.socket.on("new-message", function (msg) {
-      $('div#messages').append(msg + '<br>');
+      var $message = $('<p>');
+      $message.text(msg);
+      $('div#messages').append($message);
     });
   }
 
-  // var installSubmitHandler = function () {
-  //   $('#speak').on('submit', function (event) {
-  //       event.preventDefault();
-  //       var msg = $(this).find('input').val();
-  //       ChatApp.chat.sendMessage(msg);
-  //   });
-  // };
-
   var installKeyHandler = function () {
+    var ui = this;
+
     $('input').on('keydown', function (event) {
       if (event.which === 13) {
         event.preventDefault();
         var msg = $(this).val();
-        ChatApp.chat.sendMessage(msg);
+        ui.chat.sendMessage(msg);
         $(this).val("");
       }
     })
   }
 
-  var start = ChatApp.start = function () {
-    installSocketHandlers();
+  UI.prototype.start = function () {
+    installSocketHandlers.call(this);
   }
 
 })(this);
 
 $(function () {
   ChatApp.socket = io.connect();
-  ChatApp.chat = new ChatApp.Chat(ChatApp.socket);
-  ChatApp.start();
+  var chat = new ChatApp.Chat(ChatApp.socket);
+  var ui = new ChatApp.UI(chat);
+  ui.start();
 });
