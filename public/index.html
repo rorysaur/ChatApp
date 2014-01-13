@@ -7,7 +7,12 @@
     var socket = io.connect();
     socket.on("news", function (data) {
       console.log(data);
+      socket.emit("message", "HI IM IN THE CHATROOM");
     });
+
+    socket.on("new-message", function (msg) {
+      $("div#messages").append(msg);
+    })
   </script>
 </head>
 
