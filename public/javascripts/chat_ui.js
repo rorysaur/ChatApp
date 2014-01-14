@@ -19,10 +19,12 @@
       $('div#messages').append($message);
     });
 
-    ChatApp.socket.on("notice-room", function (msg) {
+    ChatApp.socket.on("notice-room", function (data) {
       var $message = $('<p>');
-      $message.text(msg);
+      $message.text(data.msg);
       $('div#messages').append($message);
+
+      renderUsers(data.users);
     })
   }
 
@@ -38,6 +40,20 @@
       }
     })
   }
+
+  var renderUsers = function (users) {
+    var ui = this;
+
+    var userList = "";
+
+    for (var socketId in users) {
+      userList += "<br>" + users[socketId];
+    }
+
+    console.log(userList);
+
+    $('#users').html(userList);
+  };
 
   UI.prototype.start = function () {
     installSocketHandlers.call(this);
