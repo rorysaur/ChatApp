@@ -11,7 +11,6 @@
     ChatApp.socket.on("news", function (data) {
       console.log(data);
       installKeyHandler.call(ui);
-      ui.chat.sendMessage("JOINED THE ROOM!");
     });
 
     ChatApp.socket.on("new-message", function (data) {
@@ -19,6 +18,12 @@
       $message.text(data.nick + ": " + data.msg);
       $('div#messages').append($message);
     });
+
+    ChatApp.socket.on("notice-room", function (msg) {
+      var $message = $('<p>');
+      $message.text(msg);
+      $('div#messages').append($message);
+    })
   }
 
   var installKeyHandler = function () {
