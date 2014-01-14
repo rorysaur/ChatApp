@@ -9,14 +9,14 @@
     var ui = this;
 
     ChatApp.socket.on("news", function (data) {
-      console.log("Socketed.");
+      console.log(data);
       installKeyHandler.call(ui);
-      ui.chat.sendMessage("Say something.");
+      ui.chat.sendMessage("JOINED THE ROOM!");
     });
 
-    ChatApp.socket.on("new-message", function (msg) {
+    ChatApp.socket.on("new-message", function (data) {
       var $message = $('<p>');
-      $message.text(msg);
+      $message.text(data.nick + ": " + data.msg);
       $('div#messages').append($message);
     });
   }
