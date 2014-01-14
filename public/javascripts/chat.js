@@ -5,6 +5,12 @@
     this.socket = socket;
   };
 
+  Chat.prototype.processCommand = function (command, data) {
+    if (command === "nick") {
+      this.socket.emit("nick-change-request", data);
+    }
+  };
+
   Chat.prototype.sendMessage = function (msg) {
     this.socket.emit("message", msg);
   };

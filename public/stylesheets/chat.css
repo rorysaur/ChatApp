@@ -1,8 +1,8 @@
 #messages {
   float: left;
+  font-family: 'Arial';
   background-color: lightgray;
   width: 700px;
-  height: 400px;
   margin: 10px;
   padding: 10px;
   box-sizing: border-box;
@@ -10,6 +10,7 @@
 
 #users {
   float: left;
+  font-family: 'Arial';
   background-color: lightgray;
   width: 100px;
   margin: 10px;
